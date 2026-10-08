@@ -1,45 +1,260 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>나의 첫 번째 웹페이지</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유담이의 옷가게</title>
+    <style>
+        /* 기본 스타일 리셋 및 전체 배경 설정 (검은색 배경) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        /* 메인 모바일/웹 단일 페이지 컨테이너 */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #121212;
+            border-radius: 20px;
+            padding: 24px 20px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+            border: 1px solid #222;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* 1. 상단 타이틀 */
+        .header {
+            background: linear-gradient(135deg, #1f1f1f, #2a2a2a);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        /* 2. 원형 카테고리 슬라이드 영역 */
+        .category-section {
+            position: relative;
+        }
+
+        .category-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 5px;
+            /* 스크롤바 숨기기 */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .category-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 검은색 배경에 흰색 동그라미 안에 옷들 디자인 */
+        .category-item {
+            flex: 0 0 auto;
+            width: 72px;
+            height: 72px;
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+            user-select: none;
+        }
+
+        .category-item:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .category-item span {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+            color: #111111;
+        }
+
+        /* 다음 버튼 (화살표 형태) */
+        .next-btn {
+            flex: 0 0 auto;
+            background-color: #333333;
+            color: #ffffff;
+            border: 1px solid #555;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.2s;
+        }
+
+        .next-btn:hover {
+            background-color: #555555;
+        }
+
+        /* 3. 이벤트 배너 카드들 */
+        .banner-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .banner-card {
+            background: linear-gradient(135deg, #1e1e1e 0%, #252525 100%);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .banner-card:hover {
+            transform: translateY(-2px);
+            border-color: #666;
+        }
+
+        .banner-card p {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #e0e0e0;
+            word-break: keep-all;
+        }
+
+        .banner-card p span.highlight {
+            color: #ff5555;
+            font-weight: 700;
+        }
+
+        .banner-card p span.brand {
+            color: #4da6ff;
+            font-weight: 700;
+        }
+
+        /* 하단 카테고리 정보 모달/안내 문구 */
+        .info-box {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 0.85rem;
+            color: #888;
+            text-align: center;
+            border: 1px dashed #333;
+        }
+    </style>
 </head>
-
 <body>
-<h1>안녕하세요, 저는 홍길동입니다</h1>
-<p>저는 오산정보고등학교 2학년 6반 학생입니다. HTML을 처음
-배우고 있어요!</p>
 
-<ul>
-<li>축구 하기</li>
-<li>유튜브 보기</li>
-<li>친구들과 게임하기</li>
-</ul>
+    <div class="container">
+        <!-- 메인 헤더 타이틀 -->
+        <header class="header">
+            <h1>유담이의 옷가게</h1>
+        </header>
 
-<h2>좋아하는 과목 순위</h2>
+        <!-- 원형 카테고리 영역 (검은 배경 속 흰 동그라미) -->
+        <section class="category-section">
+            <div class="category-container" id="categoryScroll">
+                <div class="category-item" onclick="selectCategory('반팔')">
+                    <span>반팔</span>
+                </div>
+                <div class="category-item" onclick="selectCategory('바람막이')">
+                    <span>바람<br>막이</span>
+                </div>
+                <div class="category-item" onclick="selectCategory('반바지')">
+                    <span>반바지</span>
+                </div>
+                <div class="category-item" onclick="selectCategory('패딩')">
+                    <span>패딩</span>
+                </div>
+                <div class="category-item" onclick="selectCategory('신발')">
+                    <span>신발</span>
+                </div>
+                <!-- 다음 화살표 버튼 -->
+                <button class="next-btn" onclick="scrollNext()">
+                    다음 &gt;
+                </button>
+            </div>
+        </section>
 
-<ol>
-<li>체육</li>
-<li>정보</li>
-<li>영어</li>
-</ol>
+        <!-- 이벤트 및 제휴 배너 영역 -->
+        <main class="banner-list">
+            <!-- 배너 1 -->
+            <div class="banner-card">
+                <p>
+                    추석맞이 이벤트 <span class="highlight">30% 할인</span> 이벤트<br>
+                    <span class="highlight">5만원 이상</span> 구매시.
+                </p>
+            </div>
 
-<h2>사진</h2>
-<img src="picture.jpg" alt="제 사진 대신 넣은 예시 이미지">
-<h2>내가 좋아하는 사이트</h2>
-<p>
-저는 <a href="https://www.youtube.com" target="_blank">유튜
-브</a> 를 즐겨 봐요. </p>
+            <!-- 배너 2 -->
+            <div class="banner-card">
+                <p>
+                    <span class="brand">나이키</span> x <span class="brand">아디다스</span> 콜라보
+                </p>
+            </div>
 
-<p>
-<strong>이건 중요한 내용!</strong>
-그리고
-<em>이건 강조하고 싶은 내용</em>
-입니다. </p>
+            <!-- 배너 3 -->
+            <div class="banner-card">
+                <p>
+                    카카오페이 구매시 <span class="highlight">3만원 이상 20%할인</span><br>
+                    (1회 제한)
+                </p>
+            </div>
+        </main>
 
-<hr>
+        <!-- 하단 상태 및 구현 안내 -->
+        <footer class="info-box" id="infoText">
+            💡 카테고리를 선택하여 상품 종류를 둘러보세요.
+        </footer>
+    </div>
 
-<p>이 페이지는 저의 첫 HTML 실습 결과물입니다. </p>
+    <script>
+        // 원형 카테고리 스크롤 기능
+        function scrollNext() {
+            const container = document.getElementById('categoryScroll');
+            container.scrollBy({ left: 150, behavior: 'smooth' });
+        }
+
+        // 카테고리 클릭 이벤트 핸들러
+        function selectCategory(categoryName) {
+            const infoText = document.getElementById('infoText');
+            infoText.innerHTML = `🔍 <strong>[${categoryName}]</strong> 카테고리가 선택되었습니다.`;
+        }
+    </script>
 </body>
-
 </html>
